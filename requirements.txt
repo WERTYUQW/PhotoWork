@@ -1,0 +1,11 @@
+# Engine 
+django
+
+# Image processing
+pillow==7.1.2
+
+# webserver
+daphne==2.5.0
+
+# Database
+mysqlclient==1.4.6
