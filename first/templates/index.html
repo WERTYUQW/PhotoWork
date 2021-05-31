@@ -1,0 +1,388 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Photowork</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css?" rel="stylesheet" type="text/css"
+          media="screen">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js?"
+            rel='stylesheet'></script>
+    <link rel="stylesheet" href="{% static  'css/uikit_start/css/uikit.min.css' %}">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=073e5fa9-57db-4d08-a6fc-6bb3f1f462bf&lang=ru_RU"
+            type="text/javascript"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body>
+{% block content %}
+<div class="segment-wo-margin">
+    <div class="upper-segment" text-align="center">
+        <img class="ui medium rounded image" src="{% static 'images/project_logo.png' %}" style="margin: auto"
+             alt="">
+        <h2 class="upper-h" text-align="center" style="color: black">Photowork</h2>
+        <br>
+    </div>
+</div>
+<header>
+    <div class="ui attached stackable menu">
+        <div class="item">
+            <p class="ui header"><img src="{% static 'images/logo-min.png' %}" alt="">Photowork</p>
+        </div>
+        <div class="ui container">
+            <a class="item ui tiny header">
+                <i class="home icon"></i> Главная </a>
+            <a class="item ui tiny header" href="{% url 'notifications' %}">
+                <i class="bell icon"></i> Уведомления
+                <div class="ui mini red label">22</div>
+            </a>
+            <a class="item ui tiny header" href="{% url 'messages' %}">
+                <i class="mail icon"></i> Сообщения
+                <div class="ui mini red label">22</div>
+            </a>
+            <div class="ui simple dropdown item ui tiny header">
+                Больше
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'edit_page' %}"><i class="edit icon"></i><span
+                            class="ui tiny header">Редактировать профиль</span></a>
+                    <a class="item"><i class="settings icon"></i><span
+                            class="ui tiny header">Настройки аккаунта</span></a>
+                    {% if user.is_authenticated %}
+                    <a class="item" href="{% url 'logout' %}"><i class="sign out alternate icon"></i><span
+                            class="ui tiny header">Выйти</span></a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="right item">
+                <div class="ui menu">
+                    {% if user.is_authenticated %}
+                    <div class="item">
+                        <a href="{% url 'view_profile' %}">
+                            <img src="../../media/{{ user.profile.image }}" alt="" width="50px" height="50px">
+                        </a>
+                    </div>
+                    {% endif %}
+                    <div class="item">
+                        <div class="ui right aligned category search">
+                            <div class="ui left icon action input">
+                                <i class="search icon"></i>
+                                <input type="text" placeholder="Найти...">
+                                <div class="ui blue submit button">Поиск</div>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% if user.is_staff %}
+<div id="map" style="width: 100%; height: 550px;"></div>
+{% endif %}
+<div class="ui inverted segment" style="margin-top: 0px;">
+    <div class="ui container" align="center">
+        {% if user.is_staff %}
+        <h3 style="text-decoration: none; color: white;">Добрый день, {{ user.profile }}! Самые свежие заявки доступны
+            на карте выше.</h3>
+        {% endif %}
+        {% if not user.is_authenticated %}
+        <p></p>
+        <br>
+        <h4 style="color: white">Добро пожаловать на главную страницу сервиса Photowork(Photofind)!</h4>
+        <h5 style="color: white">Пожалуйста, зарегистрируйтесь или войдите для осуществления деятельности в нашем
+            сервисе.</h5>
+        <div class="ui fluid massive buttons" style="width: 100%">
+            <a class="ui fluid" href="{% url 'login' %}" style="width: 100%; text-decoration: none;">
+                <button class="ui fluid button" style="text-decoration: none">Войти</button>
+            </a>
+            <div class=" or" data-text="/"></div>
+            <a class="ui fluid" href="{% url 'signup' %}" style="width: 100%; text-decoration: none;">
+                <button class="ui primary fluid button active">Зарегистрироваться</button>
+            </a>
+        </div>
+        <p></p>
+        <br>
+        <p></p>
+        {% endif %}
+        <br>
+        {% if not user.is_staff and user.is_authenticated %}
+        <h3 style="text-decoration: none; color: white;">Добрый день, {{ user.profile }}!</h3>
+        <a class="ui fluid" href="{% url 'order' %}" style="text-decoration: none;">
+            <button class="ui primary fluid button active"><h2 style="text-decoration: none; color: white;">Заказать
+                фотосессию</h2></button>
+        </a>
+        <br><br>
+        {% endif %}
+    </div>
+    <div class="segment-wo-margin">
+        <div class="ui inverted segment segment-wo-margin">
+            <div class="ui container">
+                <div class="ui inverted segment">
+                    <h4 class="ui horizontal inverted divider">
+                        Работы недели
+                    </h4>
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+
+                        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid"
+                            style="margin-left: -4px;">
+                            {% for i in images %}
+                            <li uk-height-match
+                                style="margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0;">
+                                <div class="ui card ui segment" uk-height-match>
+                                    <div class="content">
+                                        <div class="right floated meta">{{ i.date }}</div>
+                                        <a style="color: black; text-decoration: none;" href="{% url 'view_user_profile' user_need=i.id %}">
+                                            <img class="ui avatar image"
+                                                 src="../../media/{{ i.author.profile.image }}"
+                                                 style="background-position: cover">
+                                            {{ i.author }}</a>
+                                    </div>
+                                    <div class="index-images image">
+                                        <a href="{% url 'list' %}"><img class="index-images header-images" src=../../media/{{ i.image }}></a>
+                                    </div>
+                                    <div class="content">
+                                        <!--                                {{ i.place }}-->
+                                        <div class="ui transparent left icon mini input">
+                                            <input type="text" placeholder="Комментировать">
+                                            <i class="comment outline icon"></i>
+                                            <span class="right floated">
+                                <a style="color: gray; text-decoration: none" href="{% url 'like' i.id %}"><i
+                                        class="heart outline like icon"></i></a>
+                                                <!--                                    {{ likes }}-->
+                                    <span style="color: gray" class="ui right floated">12455670</span>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
+                           uk-slidenav-previous
+                           uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#"
+                           uk-slidenav-next
+                           uk-slider-item="next"></a>
+                        <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+                    </div>
+                </div>
+                <div class="ui inverted segment">
+                    <h4 class="ui horizontal inverted divider">
+                        Популярное/Последние работы
+                    </h4>
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+
+                        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid"
+                            style="margin-left: -4px;">
+                            {% for i in images %}
+                            <li uk-height-match
+                                style="margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0;">
+                                <div class="ui card ui segment" uk-height-match>
+                                    <div class="content">
+                                        <div class="right floated meta">{{ i.date }}</div>
+                                        <a style="color: black; text-decoration: none;" href="{% url 'view_user_profile' user_need=i.id %}">
+                                            <img class="ui avatar image"
+                                                 src="../../media/{{ i.author.profile.image }}"
+                                                 style="background-position: cover">
+                                            {{ i.author }}</a>
+                                    </div>
+                                    <div class="index-images image">
+                                        <a href="{% url 'list' %}"><img class="index-images header-images" src=../../media/{{ i.image }}></a>
+                                    </div>
+                                    <div class="content">
+                                        <!--                                {{ i.place }}-->
+                                        <div class="ui transparent left icon mini input">
+                                            <input type="text" placeholder="Комментировать">
+                                            <i class="comment outline icon"></i>
+                                            <span class="right floated">
+                                <a style="color: gray; text-decoration: none" href="{% url 'like' i.id %}"><i
+                                        class="heart outline like icon"></i></a>
+                                                <!--                                    {{ likes }}-->
+                                    <span style="color: gray" class="ui right floated">12455670</span>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
+                           uk-slidenav-previous
+                           uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#"
+                           uk-slidenav-next
+                           uk-slider-item="next"></a>
+                        <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+                    </div>
+                </div>
+                <div class="ui inverted segment uk-align-center">
+                    <div class="ui container uk-align-center" align="center">
+                        <h4 class="ui horizontal inverted divider">
+                            (ивент)
+                        </h4>
+                        <h3 style="color: white">До завершения:</h3>
+                        <div class="uk-grid-small uk-child-width-auto" uk-grid
+                             uk-countdown="date: 2020-06-15T20:49:26+00:00" style="margin-left: 23%">
+                            <div>
+                                <div class="uk-countdown-number uk-countdown-days"></div>
+                                <div class="uk-countdown-label uk-visible@s">Days</div>
+                            </div>
+                            <div class="uk-countdown-separator">:</div>
+                            <div>
+                                <div class="uk-countdown-number uk-countdown-hours"></div>
+                                <div class="uk-countdown-label  uk-visible@s">Hours</div>
+                            </div>
+                            <div class="uk-countdown-separator">:</div>
+                            <div>
+                                <div class="uk-countdown-number uk-countdown-minutes"></div>
+                                <div class="uk-countdown-label  uk-visible@s">Minutes
+                                </div>
+                            </div>
+                            <div class="uk-countdown-separator">:</div>
+                            <div>
+                                <div class="uk-countdown-number uk-countdown-seconds"></div>
+                                <div class="uk-countdown-label  uk-visible@s">Seconds
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+
+                        <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid"
+                            style="margin-left: -4px;">
+                            {% for i in images %}
+                            <li uk-height-match
+                                style="margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0;">
+                                <div class="ui card ui segment" uk-height-match>
+                                    <div class="content">
+                                        <div class="right floated meta">{{ i.date }}</div>
+                                        <a style="color: black; text-decoration: none;" href="{% url 'view_user_profile' user_need=i.id %}">
+                                            <img class="ui avatar image"
+                                                 src="../../media/{{ i.author.profile.image }}"
+                                                 style="background-position: cover">
+                                            {{ i.author }}</a>
+                                    </div>
+                                    <div class="index-images image">
+                                        <a href="{% url 'list' %}"><img class="index-images header-images" src=../../media/{{ i.image }}></a>
+                                    </div>
+                                    <div class="content">
+                                        <div class="ui transparent left icon mini input">
+                                            <input type="text" placeholder="Комментировать">
+                                            <i class="comment outline icon"></i>
+                                            <span class="right floated">
+                                <a style="color: gray; text-decoration: none" href="{% url 'like' i.id %}"><i
+                                        class="heart outline like icon"></i></a>
+                                                <!--                                    {{ likes }}-->
+                                    <span style="color: gray" class="ui right floated">12455670</span>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#"
+                           uk-slidenav-previous
+                           uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#"
+                           uk-slidenav-next
+                           uk-slider-item="next"></a>
+                        <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static  'css/uikit_start/js/uikit.min.js' %}"></script>
+<script src="{% static  'css/uikit_start/js/uikit-icons.min.js' %}"></script>
+<script src="{% static  'css/uikit_start/js/handlebars-v4.1.2.js' %}"></script>
+<script>
+        var myMap;
+
+        // Дождёмся загрузки API и готовности DOM.
+        ymaps.ready(init);
+
+        function init() {
+            // Создание экземпляра карты и его привязка к контейнеру с
+            // заданным id ("map").
+            let myPlacemark,
+                myMap = new ymaps.Map('map', {
+                // При инициализации карты обязательно нужно указать
+                // её центр и коэффициент масштабирования.
+                center: [55.76, 37.64], // Москва
+                zoom: 10
+            });
+
+
+            {% for i in orders %}
+                address_input = "{{ i.address }}";
+                ymaps.geocode(address_input).then(function (res) {
+                        coords = res.geoObjects.get(0).geometry.getCoordinates();
+                        myPlacemark = createPlacemark(coords);
+                        myMap.geoObjects.add(myPlacemark);
+                        myPlacemark.events.add('dragend', function () {
+                            getAddress(myPlacemark.geometry.getCoordinates());
+                        });
+                        myPlacemark.properties
+                            .set({
+                                iconLayout: 'default#image',
+                                iconImageHref: "{% static 'images/map-mark.png' %}",
+                                iconImageSize: [40, 40],
+                                balloonContentHeader: "Заказчик: <a href='{% url "view_user_profile" i.author_id %}'> {{ i.author.username }} </a>",
+                                balloonContentBody: "Адрес: {{ i.address }} <br> Дата: {{ i.date }} <br> Доп. информация: {{ i.info }} <br><br> <button class='ui primary mini button'>Принять заявку</button>"
+                            });
+                    },
+                );
+
+            {% endfor %}
+            function createPlacemark(coords) {
+                return new ymaps.Placemark(coords, {
+                    iconCaption: 'Searching...'
+                }, {
+                    preset: 'islands#violetDotIconWithCaption',
+                    draggable: true,
+                    iconLayout: 'default#image',
+                    iconImageHref: "{% static 'images/map-mark.png' %}",
+                    iconImageSize: [40, 40],
+                    iconImageOffset: [-27, -44]
+                });
+            }
+
+            function getAddress(coords) {
+                ymaps.geocode(coords).then(function (res) {
+                    let firstGeoObject = res.geoObjects.get(0);
+                    myPlacemark.properties
+                        .set({
+                            iconLayout: 'default#image',
+                            iconImageHref: "{% static 'images/map-mark.png' %}",
+                            iconImageSize: [40, 40],
+                        });
+                    document.getElementById("address_suggest").value = firstGeoObject.getAddressLine();
+                });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Лента фотографий</title>
+    <link rel="stylesheet" href="{% static 'css/Semantic-UI-CSS-master/semantic.min.css' %}">
+    <link rel="stylesheet" href={% static 'css/main.css' %}>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'css/Semantic-UI-CSS-master/semantic.min.js' %}"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body>
+<header>
+    <div class="ui attached stackable menu">
+        <a class="item ui tiny header" href="{% url 'index' %}">
+            <div class="">
+                <p class="ui header"><img src="{% static 'images/logo-min.png' %}" alt="">Photowork</p>
+            </div>
+        </a>
+        <div class="ui container">
+            <a class="item ui tiny header" href="{% url 'index' %}">
+                <i class="home icon"></i> Главная </a>
+            <a class="item ui tiny header" href="{% url 'notifications' %}">
+                <i class="bell icon"></i> Уведомления
+                <div class="ui mini red label">22</div>
+            </a>
+            <a class="item ui tiny header" href="{% url 'messages' %}">
+                <i class="mail icon"></i> Сообщения
+                <div class="ui mini red label">22</div>
+            </a>
+            <div class="ui simple dropdown item ui tiny header">
+                Больше
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'edit_page' %}"><i class="edit icon"></i><span
+                            class="ui tiny header">Редактировать профиль</span></a>
+                    <a class="item"><i class="settings icon"></i><span
+                            class="ui tiny header">Настройки аккаунта</span></a>
+                    <a class="item" href="{% url 'logout' %}"><i class="sign out alternate icon"></i><span
+                            class="ui tiny header">Выйти</span></a>
+                </div>
+            </div>
+            <div class="right item">
+                <div class="ui menu">
+                    <div class="item">
+                        <a href="{% url 'view_profile' %}">
+                            <img src="../../media/{{ user.profile.image }}" alt="" width="50px" height="50px">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <div class="ui right aligned category search">
+                            <div class="ui left icon action input">
+                                <i class="search icon"></i>
+                                <input type="text" placeholder="Найти...">
+                                <div class="ui blue submit button">Поиск</div>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="ui inverted segment">
+    <div class="ui container">
+        {% for i in images %}
+        <div class="ui card ui segment" style="width: 100%">
+            <div class="content">
+                <div class="right floated meta"><h4>{{ i.date }}</h4></div>
+                <a style="color: black" href="{% url 'view_user_profile' user_need=i.id %}">
+                    <img class="ui avatar image"
+                         src="../../media/{{ i.author.profile.image }}"
+                         style="background-position: cover">
+                    {{ i.author }},</a>
+                {{ i.place }}
+            </div>
+            <div class="index-images image">
+                <img class="index-images header-images" src=../../media/{{ i.image }}>
+            </div>
+            <div class="content">
+                <div class="ui transparent large left icon input" style="width: 70%">
+                    <input type="text" placeholder="Комментировать">
+                    <i class="comment outline icon"></i>
+                </div>
+                <span class="right floated">
+                                <a style="color: gray; text-decoration: none;" href="{% url 'like' i.id %}"><i
+                                        class=" large heart outline like icon"></i></a>
+                    <!--                                    {{ likes }}-->
+                                    <span style="color: gray; font-size: 17px;" class="ui right">12455670 Likes</span>
+                                </span>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

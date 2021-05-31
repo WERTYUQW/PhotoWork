@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уведомления</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href={% static 'css/main.css' %}>
+    <link href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css?" rel="stylesheet" type="text/css"
+          media="screen">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js?"
+            rel='stylesheet'></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=073e5fa9-57db-4d08-a6fc-6bb3f1f462bf&lang=ru_RU"
+            type="text/javascript"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body>
+{% block content %}
+<header>
+    <div class="ui attached stackable menu">
+        <a class="item ui tiny header" href="{% url 'index' %}">
+            <div class="">
+                <p class="ui header"><img src="{% static 'images/logo-min.png' %}" alt="">Photowork</p>
+            </div>
+        </a>
+        <div class="ui container">
+            <a class="item ui tiny header" href="{% url 'index' %}">
+                <i class="home icon"></i> Главная </a>
+            <a class="item ui tiny header">
+                <i class="bell icon"></i> Уведомления
+                <div class="ui mini red label">22</div>
+            </a>
+            <a class="item ui tiny header" href="{% url 'messages' %}">
+                <i class="mail icon"></i> Сообщения
+                <div class="ui mini red label">22</div>
+            </a>
+            <div class="ui simple dropdown item ui tiny header">
+                Больше
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'edit_page' %}"><i class="edit icon"></i><span
+                            class="ui tiny header">Редактировать профиль</span></a>
+                    <a class="item"><i class="settings icon"></i><span
+                            class="ui tiny header">Настройки аккаунта</span></a>
+                    <a class="item" href="{% url 'logout' %}"><i class="sign out alternate icon"></i><span
+                            class="ui tiny header">Выйти</span></a>
+                </div>
+            </div>
+            <div class="right item">
+                <div class="ui menu">
+                    <div class="item">
+                        <a href="{% url 'view_profile' %}">
+                            <img src="../../media/{{ user.profile.image }}" alt="" width="50px" height="50px">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <div class="ui right aligned category search">
+                            <div class="ui left icon action input">
+                                <i class="search icon"></i>
+                                <input type="text" placeholder="Найти...">
+                                <div class="ui blue submit button">Поиск</div>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="ui inverted segment">
+    <div class="ui piled segment ui container small">
+        <div class="ui top attached tabular menu">
+            <a class="ui fluid item active" data-tab="first" style="width: 50%"><span
+                    style="margin: auto">Уведомления</span></a>
+            <a class="ui fluid item" data-tab="second" style="width: 50%"><span style="margin: auto">Заявки</span></a>
+        </div>
+        <div class="ui bottom attached tab segment active" data-tab="first">
+            <div class="ui inverted divider"></div>
+            <div class="ui container">
+                <div style="margin-left: 40px;">
+                    <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                    <span class="header"><h3><i class="bullhorn icon"></i>На карте появились новые заявки! Поспешите, пока не разобрали.</h3></span>
+                    <a href=""><span class=""><h5><i class="share icon"></i>Подробнее...</h5></span></a>
+                    <br>
+                    <span><h5 class="ui disabled header">20 минут назад</h5></span>
+                    <!--                    Редирект на карту-->
+                </div>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container">
+                <div style="margin-left: 40px;">
+                    <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                    <span class="header"><h3><i class="bullhorn icon"></i>Вы приняли заказ на фотосессию по адресу Ул. Парковая, 16 10.06.2020 в 17:30.</h3></span>
+                    <a href=""><span class=""><h5><i class="share icon"></i>Подробнее...</h5></span></a>
+                    <br>
+                    <span><h5 class="ui disabled header">25 минут назад</h5></span>
+                    <!--                    Редирект на заявки-->
+                </div>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container">
+                <div style="margin-left: 40px;">
+                    <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                    <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                         style="width: 80px; height: 80px; margin-right: 20px; float: left;">
+                    <span class="header"><h3>{{ user.profile }}</h3></span>
+                    <span class="header"><h3>Платеж успешно проведен. Средства перечислены на ваш счет.</h3></span>
+                    <a href=""><span class=""><h5><i class="share icon"></i>Подробнее...</h5></span></a>
+                    <br><br>
+                    <span><h5 class="ui disabled header">30 минут назад</h5></span>
+                </div>
+            </div>
+            <div class="ui inverted divider"></div>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="second">
+            <div class="ui inverted divider"></div>
+            <div class="ui container">
+                <div style="margin-left: 40px; margin-bottom: 40px">
+                        <div id="map" style="width: 30%; height: 140px; float: left; margin-right: 40px; "></div>
+                        <h5><i class="user outline icon"></i> Заказчик/фотограф: {{ user.profile }}</h5>
+                        <h5><i class="map outline icon"></i> Адрес: Россия, Москва, Окружной проезд, 16</h5>
+                        <h5><i class="calendar alternate outline icon"></i> Дата и время: 2020-06-01 10:10 </h5>
+                        <h5><i class="list alternate outline icon"></i> Доп. информация: Simple text </h5>
+                </div>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container">
+                <div style="margin-left: 40px; margin-bottom: 40px">
+                        <div id="map1" style="width: 30%; height: 140px; float: left; margin-right: 40px; "></div>
+                        <h5><i class="user outline icon"></i> Заказчик/фотограф: {{ user.profile }}</h5>
+                        <h5><i class="map outline icon"></i> Адрес: Россия, Москва, Окружной проезд, 16</h5>
+                        <h5><i class="calendar alternate outline icon"></i> Дата и время: 2020-06-01 10:10 </h5>
+                        <h5><i class="list alternate outline icon"></i> Доп. информация: Simple text </h5>
+                </div>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container">
+                <div class="ui red large right ribbon label">Завершена</div>
+                <div style="margin-left: 40px; margin-bottom: 40px">
+                        <div id="map2" style="width: 30%; height: 140px; float: left; margin-right: 40px; "></div>
+                        <h5><i class="user outline icon"></i> Заказчик/фотограф: {{ user.profile }}</h5>
+                        <h5><i class="map outline icon"></i> Адрес: Россия, Москва, Окружной проезд, 16</h5>
+                        <h5><i class="calendar alternate outline icon"></i> Дата и время: 2020-06-01 10:10 </h5>
+                        <h5><i class="list alternate outline icon"></i> Доп. информация: Simple text </h5>
+                </div>
+            </div>
+            <div class="ui inverted divider"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.menu .item').tab();
+</script>
+<script>
+    ymaps.ready(init);
+
+    function init() {
+            // Создание экземпляра карты и его привязка к контейнеру с
+            // заданным id ("map").
+            let myPlacemark,
+                myMap = new ymaps.Map('map', {
+                // При инициализации карты обязательно нужно указать
+                // её центр и коэффициент масштабирования.
+                center: [55.76, 37.64], // Москва
+                zoom: 14
+            });
+            let myPlacemark1,
+                myMap1 = new ymaps.Map('map1', {
+                // При инициализации карты обязательно нужно указать
+                // её центр и коэффициент масштабирования.
+                center: [55.76, 37.64], // Москва
+                zoom: 14
+            });
+            let myPlacemark2,
+                myMap2 = new ymaps.Map('map2', {
+                // При инициализации карты обязательно нужно указать
+                // её центр и коэффициент масштабирования.
+                center: [55.76, 37.64], // Москва
+                zoom: 14
+            });
+
+
+    function createPlacemark(coords) {
+                return new ymaps.Placemark(coords, {
+                    iconCaption: 'Searching...'
+                }, {
+                    preset: 'islands#violetDotIconWithCaption',
+                    draggable: false,
+                    iconLayout: 'default#image',
+                    iconImageHref: "{% static 'images/map-mark.png' %}",
+                    iconImageSize: [50, 50],
+                    iconImageOffset: [-27, -44]
+                });
+            }
+
+    {% for i in orders %}
+                address_input = "{{ i.address }}";
+                ymaps.geocode(address_input).then(function (res) {
+                        coords = res.geoObjects.get(0).geometry.getCoordinates();
+                        myPlacemark = createPlacemark(coords);
+                        myMap.geoObjects.add(myPlacemark);
+                        myPlacemark.events.add('dragend', function () {
+                            getAddress(myPlacemark.geometry.getCoordinates());
+                        });
+                        myPlacemark.properties
+                            .set({
+                                iconLayout: 'default#image',
+                                iconImageHref: "{% static 'images/map-mark.png' %}",
+                                iconImageSize: [50, 50],
+                                balloonContentHeader: "Заказчик: <a href='{% url "view_user_profile" i.author_id %}'> {{ i.author.username }} </a>",
+                                balloonContentBody: "Адрес: {{ i.address }} <br> Дата: {{ i.date }} <br> Доп. информация: {{ i.info }}"
+                            });
+                    },
+                );
+
+            {% endfor %}
+
+    function getAddress(coords) {
+                ymaps.geocode(coords).then(function (res) {
+                    let firstGeoObject = res.geoObjects.get(0);
+                    myPlacemark.properties
+                        .set({
+                            iconLayout: 'default#image',
+                            iconImageHref: "{% static 'images/map-mark.png' %}",
+                            iconImageSize: [50, 50],
+                        });
+                    document.getElementById("address_suggest").value = firstGeoObject.getAddressLine();
+                });
+            }
+        }
+</script>
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="{% static 'css/Semantic-UI-CSS-master/semantic.min.css' %}">
+    <link rel="stylesheet" href={% static 'css/main.css' %}>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'css/Semantic-UI-CSS-master/semantic.min.js' %}"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body class="reg-log-bcg" style="overflow: hidden">
+<h3 style="color: ark-gray; margin: 5px;" align="left">
+    <a href="{% url 'index' %}" class="ui transparent secondary basic button" align="left">
+        <i class="angle left icon"></i>Вернуться
+    </a>
+</h3>
+<br><br><br><br><br><br><br><br><br><br>
+<div class="ui container ui card">
+    {% block content %}
+        <div class="ui piled segment">
+            <h2>Войти</h2>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    <p>
+                    <div class="ui left icon input">
+                        {{ field }}
+                        {% if field.label_tag == form.username.label_tag %}
+                            <i class="user outline icon"></i>
+                        {% endif %}
+                        {% if field.label_tag == form.password.label_tag %}
+                            <i class="lock icon"></i>
+                        {% endif %}
+                    </div>
+                    </p>
+                {% endfor %}
+                <button type="submit" class="fluid positive ui button">Войти</button>
+            </form>
+            <br>
+            <p>У вас нет аккаунта? <a href="{% url 'signup' %}">Зарегистрироваться</a></p>
+        </div>
+        </div>
+    {% endblock %}
+</body>
+</html>
