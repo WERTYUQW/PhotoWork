@@ -1,0 +1,408 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Сообщения</title>
+    <link rel="stylesheet" href="{% static 'css/Semantic-UI-CSS-master/semantic.min.css' %}">
+    <link rel="stylesheet" href={% static 'css/main.css' %}>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'css/Semantic-UI-CSS-master/semantic.min.js' %}"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body>
+<header>
+    <div class="ui attached stackable menu">
+        <a class="item ui tiny header" href="{% url 'index' %}">
+            <div class="">
+                <p class="ui header"><img src="{% static 'images/logo-min.png' %}" alt="">Photowork</p>
+            </div>
+        </a>
+        <div class="ui container">
+            <a class="item ui tiny header" href="{% url 'index' %}">
+                <i class="home icon"></i> Главная </a>
+            <a class="item ui tiny header" href="{% url 'notifications' %}">
+                <i class="bell icon"></i> Уведомления
+                <div class="ui mini red label">22</div>
+            </a>
+            <a class="item ui tiny header">
+                <i class="mail icon"></i> Сообщения
+                <div class="ui mini red label">22</div>
+            </a>
+            <div class="ui simple dropdown item ui tiny header">
+                Больше
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'edit_page' %}"><i class="edit icon"></i><span
+                            class="ui tiny header">Редактировать профиль</span></a>
+                    <a class="item"><i class="settings icon"></i><span
+                            class="ui tiny header">Настройки аккаунта</span></a>
+                    <a class="item" href="{% url 'logout' %}"><i class="sign out alternate icon"></i><span
+                            class="ui tiny header">Выйти</span></a>
+                </div>
+            </div>
+            <div class="right item">
+                <div class="ui menu">
+                    <div class="item">
+                        <a href="{% url 'view_profile' %}">
+                            <img src="../../media/{{ user.profile.image }}" alt="" width="50px" height="50px">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <div class="ui right aligned category search">
+                            <div class="ui left icon action input">
+                                <i class="search icon"></i>
+                                <input type="text" placeholder="Найти...">
+                                <div class="ui blue submit button">Поиск</div>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="ui two equal width column divided grid" style="height: 100%;">
+    <div class="row" style="height: 100%;">
+        <div class="column" style="overflow-y: scroll; bottom: 0; height: 100%;">
+            <br><br><br><br><br><br>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+            <div class="ui container" style="height: 85px">
+                <span><h6 class="ui disabled header" align="right">00:00</h6></span>
+                <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                     style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left;">
+                <span class="header"><h4>{{ user.profile }}</h4></span>
+                <span><h5
+                        class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                <span>Message text here</span>
+            </div>
+            <div class="ui inverted divider"></div>
+        </div>
+        <div class="twelve wide column" style="overflow-y: scroll; bottom: 0; height: 100%;">
+            <div class="ui container">
+                <div class="ui container"
+                     style="position: fixed; width: 75%; top: 100px; right: 0; background-color: white; z-index: 2;">
+                    <br>
+                    <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt=""
+                         style="width: 60px; height: 60px; margin: 0px 6px 0px 12px; float: left; ">
+                    <span class="header"><h4>{{ user.profile }}</h4></span>
+                    <span><h5
+                            class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h5></span>
+                    <br>
+                    <div class="ui inverted divider" style="margin-bottom: 0;"></div>
+                </div>
+                <div class="chat">
+                    <div class="mine messages">
+                        <div class="message">
+                            Dude
+                        </div>
+                    </div>
+                    <div class="yours messages">
+                        <div class="message">
+                            Hey!
+                        </div>
+                        <div class="message">
+                            You there?
+                        </div>
+                        <div class="message">
+                            Hello, how's it going?
+                        </div>
+                    </div>
+                    <div class="mine messages">
+                        <div class="message">
+                            Great thanks!
+                        </div>
+                        <div class="message">
+                            How about you?
+                        </div>
+                    </div>
+                    <div class="mine messages">
+                        <div class="message">
+                            Dude
+                        </div>
+                    </div>
+                    <div class="yours messages">
+                        <div class="message">
+                            Hey!
+                        </div>
+                        <div class="message">
+                            You there?
+                        </div>
+                        <div class="message">
+                            Hello, how's it going?
+                        </div>
+                    </div>
+                    <div class="mine messages">
+                        <div class="message">
+                            Great thanks!
+                        </div>
+                        <div class="message">
+                            How about you?
+                        </div>
+                    </div>
+                    <div class="mine messages">
+                        <div class="message">
+                            Dude
+                        </div>
+                    </div>
+                    <div class="yours messages">
+                        <div class="message">
+                            Hey!
+                        </div>
+                        <div class="message">
+                            <img class="ui medium image" src="{% static  'images/reg.jpg' %}" alt="">
+                        </div>
+                        <div class="message">
+                            Hello, how's it going?
+                        </div>
+                    </div>
+                    <div class="mine messages">
+                        <div class="message">
+                            Great thanks!
+                        </div>
+                        <div class="message">
+                            How about you?
+                        </div>
+                    </div>
+                    <div class="mine messages">
+                        <div class="message">
+                            Dude
+                        </div>
+                    </div>
+                    <div class="yours messages">
+                        <div class="message">
+                            Hey!
+                        </div>
+                        <div class="message">
+                            You there?
+                        </div>
+                        <div class="message">
+                            Hello, how's it going?
+                        </div>
+                    </div>
+                    <div class="mine messages">
+                        <div class="message">
+                            Great thanks!
+                        </div>
+                        <div class="message">
+                            <img class="ui medium image" src="{% static  'images/pattern_camera.jpg' %}" alt="">
+                        </div>
+                        <div class="message">
+                            How about you?
+                        </div>
+                    </div>
+                </div>
+                <!--    Потом можно сделать с <div class="message last">    -->
+                <div class="ui container"
+                     style="position: fixed; width: 75%; bottom: 0; right: 0; padding-bottom: 30px; padding-right: 30px; background-color: white; z-index: 2;">
+                    <div class="ui inverted divider" style="margin-top: 0;"></div>
+                    <div class="ui fluid left action input">
+                        <button class="ui button"><i class="paperclip icon"></i></button>
+                        <input type="text" placeholder="Введите ваше сообщение..." style="border-radius: 0;">
+                        <button class="ui button" style="border-radius: 0 3 3 0; margin-right: 20px;"><i
+                                class="paper plane outline icon"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<style>
+header{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+  body {
+  font-family: helvetica;
+  display: flex ;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-bottom: 70px;
+  z-index: -1;
+  bottom: 0;
+  height: 100%;
+}
+
+.messages {
+  display: flex;
+  bottom: 0;
+  flex-direction: column;
+}
+
+.message {
+  color: white;
+  border-radius: 20px;
+  padding: 8px 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.yours {
+  align-items: flex-start;
+}
+
+.yours .message {
+  margin-right: 25%;
+  background-color: #8f0000;
+  position: relative;
+}
+
+.yours .message.last:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: -7px;
+  height: 20px;
+  width: 20px;
+  background: #8f0000;
+  border-bottom-right-radius: 15px;
+}
+.yours .message.last:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-right-radius: 10px;
+}
+
+.mine {
+  align-items: flex-end;
+}
+
+.mine .message {
+  color: white;
+  margin-left: 25%;
+  background: #292929;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.mine .message.last:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  right: -8px;
+  height: 20px;
+  width: 20px;
+  background: #292929;
+  background-attachment: fixed;
+  border-bottom-left-radius: 15px;
+}
+
+.mine .message.last:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-left-radius: 10px;
+}
+
+</style>
+</html>

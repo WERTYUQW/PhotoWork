@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{% static 'css/Semantic-UI-CSS-master/semantic.min.css' %}">
+    <link rel="stylesheet" href={% static 'css/main.css' %}>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'css/Semantic-UI-CSS-master/semantic.min.js' %}"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type="image/x-icon">
+</head>
+<body>
+{% block content %}
+<header>
+    <div class="ui attached stackable menu">
+        <a class="item ui tiny header" href="{% url 'index' %}">
+            <div class="">
+                <p class="ui header"><img src="{% static 'images/logo-min.png' %}" alt="">Photowork</p>
+            </div>
+        </a>
+        <div class="ui container">
+            <a class="item ui tiny header" href="{% url 'index' %}">
+                <i class="home icon"></i> Главная </a>
+            <a class="item ui tiny header" href="{% url 'notifications' %}">
+                <i class="bell icon"></i> Уведомления
+                <div class="ui mini red label">22</div>
+            </a>
+            <a class="item ui tiny header" href="{% url 'messages' %}">
+                <i class="mail icon"></i> Сообщения
+                <div class="ui mini red label">22</div>
+            </a>
+            <div class="ui simple dropdown item ui tiny header">
+                Больше
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'edit_page' %}"><i class="edit icon"></i><span
+                            class="ui tiny header">Редактировать профиль</span></a>
+                    <a class="item"><i class="settings icon"></i><span
+                            class="ui tiny header">Настройки аккаунта</span></a>
+                    <a class="item" href="{% url 'logout' %}"><i class="sign out alternate icon"></i><span
+                            class="ui tiny header">Выйти</span></a>
+                </div>
+            </div>
+            <div class="right item">
+                <div class="ui menu">
+                    <div class="item">
+                        <a href="{% url 'view_profile' %}">
+                            <img src="../../media/{{ user.profile.image }}" alt="" width="50px" height="50px">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <div class="ui right aligned category search">
+                            <div class="ui left icon action input">
+                                <i class="search icon"></i>
+                                <input type="text" placeholder="Найти...">
+                                <div class="ui blue submit button">Поиск</div>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="ui inverted segment">
+    <div class="ui piled segment ui container">
+        <div class="ui piled segment ui container small">
+            <div class="ui three column grid">
+                <div class="column">
+                    <div class="ui segment ui medium circular image tiny">
+                        <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}"
+                             alt="">
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="content">
+                        <p></p>
+                        <div class="header"><h2>{{ user.profile }}</h2></div>
+                        <p></p>
+                        <div class="meta"><span><h4
+                                class="ui disabled header">{{ user.profile.first_name }} {{ user.profile.last_name }}</h4></span>
+                        </div>
+                        <p></p>
+                        <div class="description"><p>Elliot Fu is a film-maker from New York.</p></div>
+                        <p></p>
+                        <span><div class="ui mini statistic">
+                                <div class="value">120000</div>
+                                    <div class="label">Работ</div>
+                            </div></span>
+                        <span><div class="ui mini statistic">
+                                <div class="value">1200000</div>
+                                    <div class="label">Лайков</div>
+                            </div></span>
+                        <span><div class="ui mini statistic">
+                                <div class="value">1200000</div>
+                                    <div class="label">Подписчиков</div>
+                            </div></span>
+                        <p></p>
+                    </div>
+                    <p></p>
+                    <button class="ui blue basic button"><a href="{% url 'edit_page' %}">Редактировать профиль</a>
+                    </button>
+                </div>
+                <div class="column" align="right">
+                    <p class="ui disabled tiny header" align="right">Дата регистрации: {{ user.date_joined }}</p>
+                    {% if user.is_staff %}
+                    <a id="switch_user" style="cursor: pointer"><p>Стать клиентом</p></a>
+                    <div class="ui basic modal">
+                        <div class="ui icon header">
+                            <i class="user outline icon"></i>
+                            Стать клиентом?
+                        </div>
+                        <div class="content" align="center">
+                            <p align="center">Ваша роль изменится на клиента, данные сохранятся, но отображаемый на
+                                странице профеля контент изменится. При желании можно будет изменить свою роль
+                                снова.</p>
+                        </div>
+                        <div class="actions">
+                            <div class="ui red basic cancel inverted button">
+                                <i class="remove icon"></i>
+                                Нет
+                            </div>
+                            <a class="ui green ok inverted button" href="{% url 'become_user' %}">
+                                <i class="checkmark icon"></i>
+                                Да
+                            </a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a id="switch_photographer" style="cursor: pointer"><p>Стать фотографом</p></a>
+                    <div class="ui basic modal">
+                        <div class="ui icon header">
+                            <i class="camera icon"></i>
+                            Стать фотографом?
+                        </div>
+                        <div class="content" align="center">
+                            <p align="center">Ваша роль изменится на фотографа, данные сохранятся, но отображаемый на
+                                странице профеля контент изменится. При желании можно будет изменить свою роль
+                                снова.</p>
+                        </div>
+                        <div class="actions">
+                            <div class="ui red basic cancel inverted button">
+                                <i class="remove icon"></i>
+                                Нет
+                            </div>
+                            <a class="ui green ok inverted button" href="{% url 'become_photographer' %}">
+                                <i class="checkmark icon"></i>
+                                Да
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if user.is_staff %}
+            <div class="ui top attached tabular menu">
+                <a class="ui fluid item active" data-tab="first">Работы</a>
+                <a class="ui fluid item" data-tab="second">Прайс-лист</a>
+                <!--                    <a class="item" data-tab="third">Third</a>-->
+            </div>
+            <div class="ui bottom attached tab segment active" data-tab="first">
+                <div class="ui four column grid">
+                    {% for i in images %}
+                    <div class="column" style="padding: 5px">
+                        <a href="{% url 'list' %}"><img class="index-images header-images"
+                                                        src="../../media/{{ i.image }}" style="cursor: pointer"></a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="second" align="center">
+                <br>
+                <div class="ui two column grid">
+                    <div class="column">
+                        <h5>Basic photosession</h5>
+                    </div>
+                    <div class="column">
+                        <span>
+                            <a class="ui orange tag label">
+                            ₽600.00
+                            </a>
+                            <i class="large remove icon" style="color: red; cursor: pointer;" title="Удалить"></i>
+                        </span>
+                    </div>
+                    <div class="column">
+                        <h5>Basic photosession</h5>
+                    </div>
+                    <div class="column">
+                        <span>
+                            <a class="ui orange tag label">
+                            ₽1000.00
+                            </a>
+                            <i class="large remove icon" style="color: red; cursor: pointer;" title="Удалить"></i>
+                        </span>
+                    </div>
+                    <div class="column">
+                        <h5>Basic photosession</h5>
+                    </div>
+                    <div class="column">
+                        <span>
+                            <a class="ui orange tag label">
+                            ₽2500.00
+                            </a>
+                            <i class="large remove icon" style="color: red; cursor: pointer;" title="Удалить"></i>
+                        </span>
+                    </div>
+                    <div class="column">
+                        <h5>Basic photosession</h5>
+                    </div>
+                    <div class="column">
+                        <span>
+                            <a class="ui orange tag label">
+                            ₽3000.00
+                            </a>
+                            <i class="large remove icon" style="color: red; cursor: pointer;" title="Удалить"></i>
+                        </span>
+                    </div>
+                    <div class="column">
+                        <span>
+                            <i class="big plus square outline icon" style="color: green; cursor: pointer; margin: 0" title="Добавить"></i>
+                        </span>
+                    </div>
+                    <br><br><br><br>
+                </div>
+            </div>
+            {% else %}
+            <br><br>
+            <div class="ui segment">
+                <div class="ui four column grid">
+                    {% for i in images %}
+                    <div class="column" style="padding: 5px">
+                        <a href="{% url 'list' %}"><img class="index-images header-images"
+                                                        src="../../media/{{ i.image }}" style="cursor: pointer"></a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <form action="{% url 'upload_image' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            {{ form.as_p }}
+            <input type="submit" value="Upload image">
+        </div>
+        <br>
+    </form>
+</div>
+{% endblock %}
+<script>
+    $('.menu .item').tab();
+
+    $(document).ready(function(){
+        $("#switch_user").click(function(){
+            $('.ui.basic.modal').modal('show');
+        });
+        $("#switch_photographer").click(function(){
+            $('.ui.basic.modal').modal('show');
+        });
+    });
+
+
+
+</script>
+</body>
+</html>
