@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление заявки</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href={% static 'css/main.css' %}>
+    <link href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css?" rel="stylesheet" type="text/css"
+          media="screen">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js?"
+            rel='stylesheet'></script>
+    <link rel="stylesheet" href="{% static  'css/uikit_start/css/uikit.min.css' %}">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=073e5fa9-57db-4d08-a6fc-6bb3f1f462bf&lang=ru_RU"
+            type="text/javascript"></script>
+<!--    <script src="{% static 'main.js' %}"></script>-->
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body>
+<div class="ui segment">
+    <div class="ui container" align="center">
+        <a href="{% url 'index' %}" style="text-decoration: none"><p class="ui header"><img
+                src="{% static 'images/logo-min.png' %}" alt="">Photowork
+        </p></a>
+        <br>
+    </div>
+    <div id="map" style="width: 100%; height: 500px;"></div>
+    <br>
+    <div class="ui container tiny">
+        <label>Введите желаемые адрес и дату:</label>
+        <form action="{% url 'order' %}" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
+            <div class="ui fluid left icon input">
+                {{ field }}
+                {% if field.label_tag == form.address.label_tag %}
+                <i class="map outline icon"></i>
+                {% endif %}
+                {% if field.label_tag == form.date.label_tag %}
+                <i class="calendar alternate outline icon"></i>
+                {% endif %}
+                {% if field.label_tag == form.info.label_tag %}
+                <i class="list alternate outline icon"></i>
+                {% endif %}
+            </div>
+            {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+            {% endfor %}
+            </p>
+            {% endfor %}
+            <input type="submit" id="sendOrder" class="ui fluid primary massive button" value="Оставить заявку">
+            <br>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+ymaps.ready(init);
+
+    $("#sendOrder").submit()(function (e) {
+        e.preventDefault();
+
+        let address = $("#address_suggest").val();
+        let date = $("#order_time").val();
+        let info = $("#order_info").val();
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'order' %}",
+            data: {
+                address: address,
+                date: date,
+                info: info,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+        })
+    })
+
+
+function init() {
+    let suggestView = new ymaps.SuggestView('address_suggest');
+    let myPlacemark,
+        myMap = new ymaps.Map('map', {
+            center: [55.653994, 37.622093],
+            zoom: 10
+        });
+    // Слушаем клик на карте.
+    myMap.events.add('click', function (e) {
+        let coords = e.get('coords');
+        // Если метка уже создана – просто передвигаем ее.
+        if (myPlacemark) {
+            myPlacemark.geometry.setCoordinates(coords);
+        } else {
+            myPlacemark = createPlacemark(coords);
+            myMap.geoObjects.add(myPlacemark);
+            // Слушаем событие окончания перетаскивания на метке.
+            myPlacemark.events.add('dragend', function () {
+                getAddress(myPlacemark.geometry.getCoordinates());
+            });
+        }
+        myMap.setCenter(coords);
+        getAddress(coords);
+    });
+
+    let address_input = document.getElementById('address_suggest');
+    address_input.oninput = function () {
+        if (address_input.value != '') {
+            ymaps.geocode(address_input.value).then(function (res) {
+                    coords = res.geoObjects.get(0).geometry.getCoordinates();
+                    if (myPlacemark) {
+                        myPlacemark.geometry.setCoordinates(coords);
+                    } else {
+                        myPlacemark = createPlacemark(coords);
+                        myMap.geoObjects.add(myPlacemark);
+                        myPlacemark.events.add('dragend', function () {
+                            getAddress(myPlacemark.geometry.getCoordinates());
+                        });
+                    }
+                    myMap.setCenter(coords);
+                    myPlacemark.properties
+                        .set({
+                            iconLayout: "default#image",
+                            iconImageHref: "{% static 'images/map-mark.png' %}",
+                            iconImageSize: [50, 50],
+                        });
+                },
+            );
+        }
+    };
+
+
+    // Создание метки.
+    function createPlacemark(coords) {
+        return new ymaps.Placemark(coords, {
+            iconCaption: 'Searching...'
+        }, {
+            preset: 'islands#violetDotIconWithCaption',
+            draggable: true,
+            iconLayout: "default#image",
+            iconImageHref: "{% static 'images/map-mark.png' %}",
+            iconImageSize: [50, 50],
+            iconImageOffset: [-27, -44]
+        });
+    }
+
+    // Определяем адрес по координатам (обратное геокодирование).
+    function getAddress(coords) {
+        ymaps.geocode(coords).then(function (res) {
+            let firstGeoObject = res.geoObjects.get(0);
+            myPlacemark.properties
+                .set({
+                    iconLayout: "default#image",
+                    iconImageHref: "{% static 'images/map-mark.png' %}",
+                    iconImageSize: [50, 50],
+                });
+            document.getElementById("address_suggest").value = firstGeoObject.getAddressLine();
+        });
+    }
+
+}
+
+
+
+</script>
+</html>

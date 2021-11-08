@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование профиля</title>
+    <link rel="stylesheet" href="{% static 'css/Semantic-UI-CSS-master/semantic.min.css' %}">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'css/Semantic-UI-CSS-master/semantic.min.js' %}"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body>
+{% block content %}
+<header>
+    <div class="ui attached stackable menu">
+        <a class="item ui tiny header" href="{% url 'index' %}">
+            <div class="">
+                <p class="ui header"><img src="{% static 'images/logo-min.png' %}" alt="">Photowork</p>
+            </div>
+        </a>
+        <div class="ui container">
+            <a class="item ui tiny header" href="{% url 'index' %}">
+                <i class="home icon"></i> Главная </a>
+            <a class="item ui tiny header" href="{% url 'notifications' %}">
+                <i class="bell icon"></i> Уведомления
+                <div class="ui mini red label">22</div>
+            </a>
+            <a class="item ui tiny header" href="{% url 'messages' %}">
+                <i class="mail icon"></i> Сообщения
+                <div class="ui mini red label">22</div>
+            </a>
+            <div class="ui simple dropdown item ui tiny header">
+                Больше
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a class="item" href="{% url 'edit_page' %}"><i class="edit icon"></i><span
+                            class="ui tiny header">Редактировать профиль</span></a>
+                    <a class="item"><i class="settings icon"></i><span
+                            class="ui tiny header">Настройки аккаунта</span></a>
+                    <a class="item" href="{% url 'logout' %}"><i class="sign out alternate icon"></i><span
+                            class="ui tiny header">Выйти</span></a>
+                </div>
+            </div>
+            <div class="right item">
+                <div class="ui menu">
+                    <div class="item">
+                        <a href="{% url 'view_profile' %}">
+                            <img src="../../media/{{ user.profile.image }}" alt="" width="50px" height="50px">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <div class="ui right aligned category search">
+                            <div class="ui left icon action input">
+                                <i class="search icon"></i>
+                                <input type="text" placeholder="Найти...">
+                                <div class="ui blue submit button">Поиск</div>
+                            </div>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="ui inverted segment">
+    <div class="ui piled segment ui container">
+        <div class="ui piled segment ui container small">
+            <div class="ui three column grid">
+                <div class="column">
+                </div>
+                <div class="column" align="center">
+                    <div class="ui segment ui medium circular image tiny">
+                        <img class="ui medium circular image tiny" src="../../media/{{ user.profile.image }}" alt="">
+                    </div>
+                    <p></p>
+                    <button class="ui fluid blue basic button">Сменить картинку профиля</button>
+                    <p></p>
+                    <div class="content" align="left">
+                        <p></p>
+                        <h4 class="ui header">Имя пользователя</h4>
+                        <form action="{% url 'edit_page' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="ui large disabled action input">
+                                <input disabled type="text" value="{{ user.profile }}">
+                                <button name="username_change" class="ui icon button"><i class="edit outline icon"></i>
+                                </button>
+                            </div>
+                            <h4 class="ui header">Имя</h4>
+                            <div class="ui large disabled action input">
+                                <input disabled type="text" value="{{ user.profile.first_name }}">
+                                <button name="first_name_change" class="ui icon button"><i
+                                        class="edit outline icon"></i></button>
+                            </div>
+                            <h4 class="ui header">Фамилия</h4>
+                            <div class="ui large disabled action input">
+                                <input disabled type="text" value="{{ user.profile.last_name }}">
+                                <button name="last_name_change" class="ui icon button"><i class="edit outline icon"></i>
+                                </button>
+                            </div>
+                            <h4 class="ui header">О себе</h4>
+                            <div class="ui large disabled action input">
+                                <textarea disabled name="text" cols="19" rows="5">{{ user.profile.bio }}</textarea>
+                                <button name="bio_change" class="ui icon button"><i class="edit outline icon"></i>
+                                </button>
+                            </div>
+                            <h4 class="ui header">Changing information</h4>
+                            <div class="ui large input">
+                                {{ form.as_p }}
+                                <input type="submit" value="Change">
+                            </div>
+                        </form>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+                    </div>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

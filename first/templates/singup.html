@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/Semantic-UI-CSS-master/semantic.min.css' %}">
+    <link rel="stylesheet" href={% static 'css/main.css' %}>
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'css/Semantic-UI-CSS-master/semantic.min.js' %}"></script>
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="images/png">
+    <link rel="icon" href="{% static 'images/icon-min.ico' %}" type = "image/x-icon">
+</head>
+<body class="reg-log-bcg" style="overflow: hidden">
+<h3 style="color: ark-gray; margin: 5px;" align="left">
+    <a href="{% url 'index' %}" class="ui transparent secondary basic button" align="left">
+        <i class="angle left icon"></i>Вернуться
+    </a>
+</h3>
+<br><br><br><br><br><br>
+<div class="ui container ui card">
+    <div class="ui piled segment">
+        <h3>Зерегистрироваться в Photowork</h3>
+        <div class="ui container small">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <p>
+                    <div class="ui left icon input">
+                        {{ field }}
+                        {% if field.label_tag == form.email.label_tag %}
+                            <i class="envelope outline icon"></i>
+                        {% endif %}
+                        {% if field.label_tag == form.username.label_tag %}
+                            <i class="user outline icon"></i>
+                        {% endif %}
+                        {% if field.label_tag == form.first_name.label_tag %}
+                            <i class="user outline icon"></i>
+                        {% endif %}
+                        {% if field.label_tag == form.last_name.label_tag %}
+                            <i class="user outline icon"></i>
+                        {% endif %}
+                        {% if field.label_tag == form.password1.label_tag %}
+                            <i class="lock icon"></i>
+                        {% endif %}
+                        {% if field.label_tag == form.password2.label_tag %}
+                            <i class="lock icon"></i>
+                        {% endif %}
+                    </div>
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                    </p>
+                {% endfor %}
+                <button type="submit" class="fluid positive ui button">Зарегистрироваться</button>
+            </form>
+            <br>
+            <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
