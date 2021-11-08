@@ -1,0 +1,106 @@
+.header-images {
+    height: 100%;
+    width: 100%;
+}
+
+.upper-menu {
+    position: sticky;
+    top: 0;
+    left: 0;
+    min-height: 2em;
+    z-index: 99;
+}
+
+.upper-segment {
+    background-image: url(../images/photograph.jpg);
+    background-attachment: fixed;
+    text-align: center;
+    background-size: cover;
+}
+
+.reg-log-bcg {
+    background-image: url(../images/reg.jpg);
+    background-attachment: fixed;
+    text-align: center;
+    background-size: cover;
+}
+
+.centred {
+    position: fixed;
+    margin: 0 auto;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    min-height: 2em;
+    z-index: 99;
+    padding: 0;
+}
+
+.segment-wo-margin {
+    margin: 0px;
+    padding: 0px;
+    border-radius: 0;
+    border: 0;
+}
+
+.darker-segment {
+    background-color: #000000;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    padding-bottom: 20px;
+    border-radius: 0;
+    color: lightgray;
+}
+
+.landing-hr {
+    height: 0;
+    box-shadow: 0 0 15px 0 lightgray;
+    margin: 0px;
+}
+
+div {
+    border-radius: 0;
+    border: 0;
+}
+
+.upper-margin {
+    margin-left: 2px;
+    padding-left: 2px;
+}
+
+.upper-image {
+    width: 30%;
+    height: 50%;
+    margin: auto;
+}
+
+.upper-h {
+    margin: 0;
+    padding: 0;
+}
+
+.index-images {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    display: inherit;
+}
+
+.modal.closed {
+    display: none;
+}
+
+.rabotaysuka{
+    position: sticky;
+}
+
+.input_block {
+    position: static;
+    top: 0;
+    left: 0;
+}
